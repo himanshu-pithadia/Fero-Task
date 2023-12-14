@@ -3,9 +3,8 @@ from .models import Order, OrderItem
 from datetime import datetime
 from product.models import Product
 
-from product.serializers import ProductSerializer
 
-from customer.serializers import CustomerSerializer
+from datetime import date
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -24,6 +23,12 @@ class OrderSerializer(serializers.ModelSerializer):
     def to_internal_value(self, data):
         data['order_date'] = datetime.strptime(data['order_date'], "%d/%m/%Y").date()
         return super(OrderSerializer, self).to_internal_value(data)
+
+    def validate_order_date(self, value):
+        today = date.today()
+        if value < today:
+            raise serializers.ValidationError("Order date cannot be in the past.")
+        return value
 
     def validate(self, data):
         order_items_data = data.get('order_item', [])
