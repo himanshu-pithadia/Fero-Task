@@ -14,7 +14,7 @@
 
 #### After migrate run command python manage.py runserver to run the server.
 
-## I added struncture code with filter options by using django-filter package
+## I added well structure code with filter options by using django-filter package
 
 # After run the server you can test below API Endpoints
 
